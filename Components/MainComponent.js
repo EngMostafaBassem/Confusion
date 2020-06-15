@@ -4,7 +4,8 @@ import {View,Text} from 'react-native'
 import {DISHES} from './Shared/dishes'
 
 import MenuItems from './MenuItems'
-import MenuItem from './MenuItems'
+import Menu from './MenuItems'
+import DishDetailsComponent from './DishDetailsComponent'
 class MainComponent extends Component{
 
 
@@ -13,10 +14,15 @@ class MainComponent extends Component{
 
         super(props)
         this.state={
-            dishData:DISHES
+            dishData:DISHES,
+            selectedDish:null
         }
     }
 
+    changeSelectedDish(id)
+    {
+        this.setState({selectedDish:id})
+    }
 
     
     render()
@@ -25,7 +31,8 @@ class MainComponent extends Component{
         return(
             <View>
                
-               <MenuItem dishData={this.state.dishData}/>
+               <Menu dishData={this.state.dishData} changeSelectedDish={(id)=>this.changeSelectedDish(id)}/>
+               <DishDetailsComponent dish={this.state.dishData.filter(item=>item.id==this.state.selectedDish)[0]}/>
 
             </View>
         )
@@ -34,3 +41,4 @@ class MainComponent extends Component{
 }
 
 export default MainComponent
+

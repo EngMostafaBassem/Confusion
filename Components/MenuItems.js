@@ -4,29 +4,35 @@ import {View,Text,FlatList} from 'react-native'
 import {ListItem} from 'react-native-elements'
 
 
-const MenuItemRendering=({item,index})=>(
 
-    <ListItem
-    
-    key={index}
-    title={item.name}
-    subtitle={item.description}
-    leftAvatar={{source:require('./Shared/images/uthappizza.png')}}
-    
-    />
-)
+const Menu =(props)=>{
 
-const MenuItem=({dishData})=>{
 
-    return (
-        <FlatList
-        data={dishData}
-        renderItem={MenuItemRendering}
-        keyExtractor={(item)=>item.id.toString()}
+    const MenuItemRendering=({item,index})=>(
+
+        <ListItem
+        
+        key={index}
+        title={item.name}
+        subtitle={item.description}
+        leftAvatar={{source:require('./Shared/images/uthappizza.png')}}
+        onPress={()=>props.changeSelectedDish(item.id)}
+        
         
         />
     )
 
-}
 
-export default MenuItem
+    return (
+        <View>
+      <FlatList
+        data={props.dishData}
+        renderItem={MenuItemRendering}
+        keyExtractor={(item)=>item.id.toString()}
+           
+        />
+        </View>
+    )
+    }
+
+export default Menu
