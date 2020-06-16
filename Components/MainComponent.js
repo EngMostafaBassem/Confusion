@@ -8,7 +8,9 @@ import DishDetailsComponent from './DishDetailsComponent'
 import { createStackNavigator } from 'react-navigation-stack';
 import { createAppContainer } from 'react-navigation'
 import {createDrawerNavigator} from 'react-navigation-drawer'
+import Contact from './ContactComponent'
 import Home from './Home'
+import About from './AboutComponent'
 
 const MenuNavigator=createStackNavigator({
 
@@ -40,6 +42,31 @@ const MenuNavigator=createStackNavigator({
      }
  })
 
+ const ContactNavigator=createStackNavigator({
+     Contact:{
+         screen:Contact,
+         navigationOptions:{
+             title:"Contact Us"
+         }
+     }
+
+ })
+
+
+
+
+
+ const AboutNavigator=createStackNavigator({
+    Contact:{
+        screen:About,
+        navigationOptions:{
+            title:"About Us"
+        }
+    }
+
+})
+
+
 
 
 
@@ -47,6 +74,9 @@ const DrawerNavigator=createDrawerNavigator({
 
     Home:HomeNavigator,
     Menu:MenuNavigator,
+    Contact:ContactNavigator,
+    About:AboutNavigator
+
     
 
 
