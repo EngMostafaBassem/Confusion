@@ -2,10 +2,13 @@ import React from 'react'
 import {View,Text,FlatList} from 'react-native'
 
 import {ListItem} from 'react-native-elements'
-
+import  {DISHES} from './Shared/dishes'
 
 
 const Menu =(props)=>{
+
+
+
 
 
     const MenuItemRendering=({item,index})=>(
@@ -16,7 +19,7 @@ const Menu =(props)=>{
         title={item.name}
         subtitle={item.description}
         leftAvatar={{source:require('./Shared/images/uthappizza.png')}}
-        onPress={()=>props.changeSelectedDish(item.id)}
+        onPress={()=>props.navigation.navigate('DishData',{dishID:item.id})}
         
         
         />
@@ -24,9 +27,12 @@ const Menu =(props)=>{
 
 
     return (
-        <View>
+
+        
+        <View >
+          
       <FlatList
-        data={props.dishData}
+        data={DISHES}
         renderItem={MenuItemRendering}
         keyExtractor={(item)=>item.id.toString()}
            
