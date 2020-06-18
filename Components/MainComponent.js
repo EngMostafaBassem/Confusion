@@ -1,28 +1,57 @@
 
 import React ,{Component}from 'react'
-import {View,Text} from 'react-native'
+import {View,Text,StyleSheet,Image,SafeAreaView,ScrollView} from 'react-native'
 import {DISHES} from './Shared/dishes'
 
 import Menu from './MenuItems'
 import DishDetailsComponent from './DishDetailsComponent'
 import { createStackNavigator } from 'react-navigation-stack';
-import { createAppContainer } from 'react-navigation'
-import {createDrawerNavigator} from 'react-navigation-drawer'
+import { createAppContainer} from 'react-navigation'
+import {createDrawerNavigator,DrawerItems} from 'react-navigation-drawer'
 import Contact from './ContactComponent'
 import Home from './Home'
 import About from './AboutComponent'
+import {Icon} from 'react-native-elements'
+
+
+
+const CustomDrawerContentComponent = (props) => (
+    <ScrollView>
+      <SafeAreaView style={styles.container} forceInset={{ top: 'always', horizontal: 'never' }}>
+        <View style={styles.drawerHeader}>
+          <View style={{flex:1}}>
+          <Image source={require('./Shared/images/logo.png')} style={styles.drawerImage} />
+          </View>
+          <View style={{flex: 2}}>
+            <Text style={styles.drawerHeaderText}>Ristorante Con Fusion</Text>
+          </View>
+        </View>
+        <DrawerItems {...props} />
+      </SafeAreaView>
+    </ScrollView>
+  );
+
+
+
 
 const MenuNavigator=createStackNavigator({
 
     Menu:{
-        screen:Menu,    
+        screen:Menu,
+        navigationOptions:(({navigation})=>({
+            
+            title:'Menu',
+            headerLeft:()=><Icon name="menu" size={24} color='black' onPress={()=>navigation.toggleDrawer()}/>
+        
+
+
+    }))
+
     
     },
     DishData:{
         screen:DishDetailsComponent,
-        navigationOptions:{
-          title:'Details Of Dish'
-      }
+      
     
         
     }
@@ -36,18 +65,33 @@ const MenuNavigator=createStackNavigator({
  const HomeNavigator=createStackNavigator({
      Home:{
          screen:Home,
-         navigationOptions:{
-             title:'Home'
-         }
+         
+         navigationOptions:(({navigation})=>({
+            
+                title:'Home',
+                headerLeft:()=><Icon name="menu" size={24} color='black' onPress={()=>navigation.toggleDrawer()}/>
+            
+
+
+        }))
+
+         
+
      }
  })
 
  const ContactNavigator=createStackNavigator({
      Contact:{
          screen:Contact,
-         navigationOptions:{
-             title:"Contact Us"
-         }
+         navigationOptions:(({navigation})=>({
+            
+            title:'Contacts',
+            headerLeft:()=><Icon name="menu" size={24} color='black' onPress={()=>navigation.toggleDrawer()}/>
+        
+
+
+    }))
+
      }
 
  })
@@ -59,9 +103,15 @@ const MenuNavigator=createStackNavigator({
  const AboutNavigator=createStackNavigator({
     Contact:{
         screen:About,
-        navigationOptions:{
-            title:"About Us"
-        }
+        navigationOptions:(({navigation})=>({
+            
+            title:'About US',
+            headerLeft:()=><Icon name="menu" size={24} color='black' onPress={()=>navigation.toggleDrawer()}/>
+        
+
+
+    }))
+
     }
 
 })
@@ -72,17 +122,74 @@ const MenuNavigator=createStackNavigator({
 
 const DrawerNavigator=createDrawerNavigator({
 
-    Home:HomeNavigator,
-    Menu:MenuNavigator,
-    Contact:ContactNavigator,
-    About:AboutNavigator
+    Home:
+    {
+        screen:HomeNavigator, 
+        navigationOptions:{
+            drawerIcon:()=>  <Icon
+            name='home'
+            type='font-awesome'            
+            size={24}
+            
+          />
+        }
+       
 
+    },
+   
+    Menu:{
+        screen:MenuNavigator,
+        navigationOptions:{
+            drawerIcon:()=> <Icon
+            name='list'
+            type='font-awesome'            
+            size={24}
+           
+          />
+           
+          
+        }
+    },
+    
+    
+   
+    Contact:
+    {
+        screen: ContactNavigator,
+        navigationOptions:{
+            drawerIcon:()=><Icon
+            name='address-card'
+            type='font-awesome'            
+            size={22}
+           
+          />,
+         
+        }
+    },
+    
+   
+    About:{
+        screen:AboutNavigator,
+        navigationOptions:{
+            drawerIcon:()=>
+            <Icon
+            name='info-circle'
+            type='font-awesome'            
+            size={24}
+            
+          />
+        }
+    }
     
 
 
 }
 ,{
-    initialRouteName:'Menu'
+    initialRouteName:'Menu',
+    contentComponent:CustomDrawerContentComponent
+    
+   
+   
 }
 
 
@@ -97,3 +204,29 @@ const  MainComponent=createAppContainer(DrawerNavigator)
 
 
 export default MainComponent
+
+
+const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+    },
+    drawerHeader: {
+      backgroundColor: '#512DA8',
+      height: 140,
+      alignItems: 'center',
+      justifyContent: 'center',
+      flex: 1,
+      flexDirection: 'row'
+    },
+    drawerHeaderText: {
+      color: 'white',
+      fontSize: 24,
+      fontWeight: 'bold'
+    },
+    drawerImage: {
+      margin: 10,
+      width: 80,
+      height: 60
+    }
+  });
+  
