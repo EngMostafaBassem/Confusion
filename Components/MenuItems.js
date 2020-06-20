@@ -2,15 +2,13 @@ import React from 'react'
 import {View,Text,FlatList} from 'react-native'
 
 import {ListItem} from 'react-native-elements'
-import  {DISHES} from './Shared/dishes'
-
+import {useSelector} from 'react-redux'
+import Loading from './Loading'
+import { baseUrl } from '../json-server/baseUrl'
 
 const Menu =(props)=>{
 
-
-
-
-
+    const dishData=useSelector(state=>state.dishReducer)
     const MenuItemRendering=({item,index})=>(
 
         <ListItem
@@ -18,25 +16,32 @@ const Menu =(props)=>{
         key={index}
         title={item.name}
         subtitle={item.description}
-        leftAvatar={{source:require('./Shared/images/uthappizza.png')}}
+        leftAvatar={{source:{uri:baseUrl+item.image}}}
         onPress={()=>props.navigation.navigate('DishData',{dishID:item.id})}
         
         
         />
     )
 
-
     return (
-
         
-        <View >
+        <View  style={{flex:1}} >
+       
           
-      <FlatList
-        data={DISHES}
-        renderItem={MenuItemRendering}
-        keyExtractor={(item)=>item.id.toString()}
-           
-        />
+          {
+             
+             dishData.LOADING===true?<Loading/>:
+             <FlatList
+             data={dishData.DISHES}
+             renderItem={MenuItemRendering}
+             keyExtractor={(item)=>item.id.toString()}
+                
+             />
+
+              
+          }
+          
+     
         </View>
     )
     }

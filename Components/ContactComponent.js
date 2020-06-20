@@ -1,7 +1,7 @@
 import React from 'react'
 import {Text,View} from 'react-native'
 import {Card} from 'react-native-elements'
-import {Icon} from 'react-native-elements'
+
 const Contact=()=>{
 
     return(

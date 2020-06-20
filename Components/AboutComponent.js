@@ -1,7 +1,10 @@
 import React from 'react'
 import {Text,View,FlatList,ScrollView} from 'react-native'
 import {Card,ListItem} from 'react-native-elements'
-import {LEADERS} from './Shared/leaders'
+import { baseUrl } from '../json-server/baseUrl'
+import { useScreens } from 'react-native-screens'
+import { useSelector } from 'react-redux'
+
 
 
 const History=()=>(
@@ -16,12 +19,14 @@ const History=()=>(
 
 const About=()=>{
 
+  const leadersData=useSelector(state=>state.leaderReducer)
     const renderItem=({item,index})=>(
             <ListItem
             key={index}
             title={item.name}
             subtitle={item.description}
-            leftAvatar={{source: require('./Shared/images/alberto.png')}}
+            leftAvatar={{source:{uri:baseUrl+item.image}}}
+           
 
             
             />
@@ -37,7 +42,7 @@ const About=()=>{
        
          <FlatList
          keyExtractor={item=>item.id.toString()}
-         data={LEADERS}
+         data={leadersData.LEADERS}
          renderItem={renderItem}
         
          />
