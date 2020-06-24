@@ -17,6 +17,16 @@ ERR:null
             return {...state,COMMENTS:action.payload,LOADING:false,ERR:null}
 
 
+
+       case actionTypes.ADD_COMMENT:
+           const newComment={...action.payload}
+           newComment.id=state.COMMENTS.length
+           newComment.date=new Date().toISOString();
+            
+         return {...state,COMMENTS: [...state.COMMENTS,newComment],LOADING:false,ERR:null}
+    
+
+
         case actionTypes.COMMENTS_LOADING:    
             return {...state,COMMENTS:[],LOADING:true,ERR:null}
 

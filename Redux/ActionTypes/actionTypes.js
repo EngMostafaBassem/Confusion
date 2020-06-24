@@ -25,6 +25,8 @@ export const LEADERS_ERROR='LEADERS_ERROR'
 export const ADD_COMMENTS='ADD_COMMENTS'
 export const COMMENTS_LOADING='COMMENTS_LOADING'
 export const COMMENTS_ERROR='COMMENTS_ERROR'
+export const ADD_COMMENT='ADD_COMMENT'
+export const POST_COMMENT='POST_COMMENT'
 
 /******************************** */
 
