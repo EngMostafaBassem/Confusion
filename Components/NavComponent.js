@@ -11,6 +11,8 @@ import Home from './Home'
 import About from './AboutComponent'
 import {Icon} from 'react-native-elements'
 import { baseUrl } from '../json-server/baseUrl';
+import { createNativeWrapper } from 'react-native-gesture-handler';
+import Reverse from './ReserveComponent';
 
 
 
@@ -31,7 +33,18 @@ const CustomDrawerContentComponent = (props) => (
   );
 
 
+const ReverseNavigator=createStackNavigator({
 
+  Reverse:{
+    screen:Reverse,
+    navigationOptions:({navigation})=>({
+
+      title:'Reverse Table',
+      headerLeft:()=><Icon name="menu" size={24} color='black' onPress={()=>navigation.toggleDrawer()}/>
+
+    })
+  }
+})
 
 const MenuNavigator=createStackNavigator({
 
@@ -178,6 +191,21 @@ const DrawerNavigator=createDrawerNavigator({
             
           />
         }
+    },
+
+    Reverse:{
+      screen:ReverseNavigator,
+      navigationOptions:{
+        title:'Reverse Table',
+        drawerIcon:()=>
+        <Icon
+        name='book'
+        type='font-awesome'            
+        size={24}
+        
+      />
+
+      }
     }
     
 
