@@ -1,9 +1,8 @@
 import React,{useState, useEffect} from 'react'
-import {View,Text,Picker,Switch,Button,StyleSheet,Modal} from 'react-native' 
+import {View,Text,Picker,Switch,Button,StyleSheet,Modal,Alert} from 'react-native' 
 import DatePicker from 'react-native-datepicker'
 import { TouchableHighlight,TouchableOpacity } from 'react-native-gesture-handler'
-
-
+import * as Animatable from 'react-native-animatable';
 
 
 const Reverse=()=>{
@@ -18,23 +17,34 @@ const Reverse=()=>{
 
     const handleSubmit=()=>{
        // const formData={guests,smoking,date}
-    
-       
-        setVisible(true)
+      
+       // setVisible(true)
+        Alert.alert('Your Reservation OK ?',`Number of Guests:${guests}\nSmoking?${smoking}\nData and Time:${date}`,
+        
+        [
+            {
+                 text:'cancel',
+                 style:'cancel'
+            },
+            {
+                text:'ok',
+                onPress:()=>{
+
+                    setSmoking(false)
+                    setGuests("1")
+                    setDate("2020-01-01")
+                }
+            }
+
+
+        ])
     }
     
 
-useEffect(()=>{
 
-    if(visible==false){
-        setSmoking(false)
-        setGuests("1")
-        setDate("2020-01-01")
-    }
-},[visible])
 
     return(
-       <View >
+       <Animatable.View  animation="zoomIn" duration={2000} easing="ease-out" >
 
         
                <Modal
@@ -190,7 +200,7 @@ useEffect(()=>{
 
            </View>
            
-       </View>
+       </Animatable.View >
     )
 }
 export default Reverse

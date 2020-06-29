@@ -13,6 +13,7 @@ import {Icon} from 'react-native-elements'
 import { baseUrl } from '../json-server/baseUrl';
 import { createNativeWrapper } from 'react-native-gesture-handler';
 import Reverse from './ReserveComponent';
+import Fav from './Fav'
 
 
 
@@ -126,7 +127,29 @@ const MenuNavigator=createStackNavigator({
 
     }
 
+
 })
+
+
+
+
+
+const FavNavigator=createStackNavigator({
+  Contact:{
+      screen:Fav,
+      navigationOptions:(({navigation})=>({
+          
+          title:'Favourits',
+          headerLeft:()=><Icon name="menu" size={24} color='black' onPress={()=>navigation.toggleDrawer()}/>
+      
+
+
+  }))
+
+  }
+
+})
+
 
 
 
@@ -206,7 +229,24 @@ const DrawerNavigator=createDrawerNavigator({
       />
 
       }
+    },
+
+
+    Fav:{
+      screen:FavNavigator,
+      navigationOptions:{
+        title:'My Favourites',
+        drawerIcon:()=>
+        <Icon
+        name='heart'
+        type='font-awesome'            
+        size={24}
+        
+      />
+
+      }
     }
+    
     
 
 

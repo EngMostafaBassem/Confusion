@@ -44,3 +44,8 @@ export const addFavDish=(id)=>({
     type:actionTypes.ADD_DISH_FAV,
     payload:id
 })
+
+export const deleteFavDish=(id)=>({
+    type:actionTypes.DELETE_DISH_FAV,
+    payload:id
+})

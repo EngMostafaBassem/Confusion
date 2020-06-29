@@ -1,5 +1,5 @@
 import React,{useEffect,useState} from 'react'
-import {View,Text,FlatList,Modal,ScrollView} from 'react-native'
+import {View,Text,FlatList,Modal,ScrollView,Alert,PanResponder} from 'react-native'
 import {Card, Icon,Rating,Input,Button} from 'react-native-elements'
 
 import {useSelector} from 'react-redux'
@@ -10,12 +10,15 @@ import {postFavDish} from '../Redux/Actions/dishActions'
 import {postComment} from '../Redux/Actions/commentActions'
 import Comments from './Comments'
 
+
+
+
 const DishDetailsComponent=(props)=>{
 
 
     const dishData=useSelector(state=>state.dishReducer)
     const commentData=useSelector(state=>state.commentReducer)
-    const favArr=useSelector(state=>state.addFavReducer.favIDs)
+    const favArr=useSelector(state=>state.FavReducer.favIDs)
     const [isLiked,setIsLiked]=useState(false)
     const [visible,setVisible]=useState(false)
     const dispatch=useDispatch()
@@ -24,6 +27,69 @@ const DishDetailsComponent=(props)=>{
     const [comment,setComment]=useState("")
     const [rating,setRating]=useState(null)
 
+
+
+
+
+    const dragRight=({moveX,moveY,dx,dy})=>{
+        if(dx<-200)
+        {
+            return true
+        }
+        else{
+            return false
+        }
+
+    }
+
+
+
+    const dragLeft=({moveX,moveY,dx,dy})=>{
+        if(dx>200)
+        {
+            return true
+        }
+        else{
+            return false
+        }
+
+    }
+
+
+    const panResponder = PanResponder.create({
+        onStartShouldSetPanResponder: (e, gestureState) => {
+            return true;
+        },
+        onPanResponderEnd: (e, gestureState) => {
+            console.log("pan responder end", gestureState);
+            if (dragRight(gestureState)){
+                Alert.alert('Important','Do You Want to Add this dish to your Favourits?',[
+                    {
+                    text:"Cancel",
+                    style:"cancel"
+                   },
+                   {
+                    text:"Ok",
+                    onPress:()=>handleFav(dish.id)
+                   }
+                     ])
+                 
+            }
+
+
+
+
+
+
+
+            if (dragLeft(gestureState)){
+               
+                setVisible(true)
+            }
+              
+            return true;
+        }
+    })
 
     useEffect(()=>{
   
@@ -54,13 +120,9 @@ const DishDetailsComponent=(props)=>{
 
  
     useEffect(()=>{
-       
-       
        setAuthor("")
        setComment("")
-       setRating(null)
-       
-      
+       setRating(null)    
     },[visible])
 
 
@@ -126,27 +188,47 @@ const DishDetailsComponent=(props)=>{
               {
                   (dish!=null)&&
                   (         
-                  <Card featuredTitle={dish.name} image={{uri:baseUrl+dish.image}}>
+                  <Card featuredTitle={dish.name} image={{uri:baseUrl+dish.image}}  {...panResponder.panHandlers}>
                   <Text>{dish.description}</Text>
-                  <View style={{flexDirection:'row'}}>
+                  <View style={{flexDirection:'row'}} >
   
                   <Icon
                   raised                          
                   name='heart'
                   type='font-awesome'
                   color={isLiked?'red':'orange'}
-                  onPress={()=>handleFav(dish.id)}
+                 
+
+
+                  onPress={()=>{
+                      
+                    Alert.alert('Important','Do You Want to Add this dish to your Favourits?',[
+                   {
+                   text:"Cancel",
+                   style:"cancel"
+                  },
+                  {
+                   text:"Ok",
+                   onPress:()=>handleFav(dish.id)
+                  }
+                    ])
+                
+                
+                }}
+                  
                   
                   />
 
 
                    <Icon
-                   reverse
+                  reverse
                   raised                          
                   name='edit'
                   type='font-awesome'
                   color='#3a5fcd'
                   onPress={()=>setVisible(true)}
+                      
+                  
                   
                   />
                    </View>

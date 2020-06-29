@@ -6,6 +6,7 @@ export const DISHES_ERROR='DISHES_ERROR'
 
 export const POST_DISH_FAV='POST_DISH_FAV'
 export const ADD_DISH_FAV='ADD_DISH_FAV'
+export const DELETE_DISH_FAV='DELETE_DISH_FAV'
 
 /******************************** */
 
