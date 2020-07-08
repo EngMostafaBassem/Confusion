@@ -3,6 +3,9 @@ import {View,Text,Picker,Switch,Button,StyleSheet,Modal,Alert} from 'react-nativ
 import DatePicker from 'react-native-datepicker'
 import { TouchableHighlight,TouchableOpacity } from 'react-native-gesture-handler'
 import * as Animatable from 'react-native-animatable';
+import {Notifications} from 'expo'
+import * as  Permissions from 'expo-permissions'
+import * as Calendar from 'expo-calendar';
 
 
 const Reverse=()=>{
@@ -13,9 +16,9 @@ const Reverse=()=>{
     const [visible,setVisible]=useState(false)
 
     const toggleSmoking=()=>{setSmoking(!smoking)}
+   
 
-
-    const handleSubmit=()=>{
+    const handleReservation=()=>{
        // const formData={guests,smoking,date}
       
        // setVisible(true)
@@ -30,6 +33,8 @@ const Reverse=()=>{
                 text:'ok',
                 onPress:()=>{
 
+                    addReservationToCalendar(date)
+                    presentLocalNotification(date)
                     setSmoking(false)
                     setGuests("1")
                     setDate("2020-01-01")
@@ -39,9 +44,59 @@ const Reverse=()=>{
 
         ])
     }
-    
 
+    const obtainCalendarPermission=async()=>{
+       const calendarPermission=await Permissions.askAsync(Permissions.CALENDAR)
+       console.log(calendarPermission)
+       
+       return calendarPermission
+    }
 
+    const addReservationToCalendar= async(date)=>{
+        console.log(date)
+     
+
+        Calendar.createEventAsync('ID1',{
+            calendarId:Permissions.CALENDAR.DEFAULT,
+            title:'Con Fusion Table Reservation',
+            startDate:new Date(Date.parse(date)),
+            endDate:new Date(Date.parse(date)+1000*60*60*2),
+            timeZone:'Asia/Hong_Kong',
+            location:'121, Clear Water Bay Road, Clear Water Bay, Kowloon, Hong Kong'
+
+        })
+    }
+   
+    async function  obtainNotificationPermission() {
+        let permission = await Permissions.getAsync(Permissions.USER_FACING_NOTIFICATIONS);
+        if (permission.status !== 'granted') {
+            permission = await Permissions.askAsync(Permissions.USER_FACING_NOTIFICATIONS);
+            if (permission.status !== 'granted') {
+                Alert.alert('Permission not granted to show notifications');
+            }
+        }
+        return permission;
+    }
+
+    async function presentLocalNotification(date) {
+        await obtainNotificationPermission();
+        Notifications.presentLocalNotificationAsync({
+            title: 'Your Reservation',
+            body: 'Reservation for '+ date + ' requested',
+            ios: {
+                sound: true
+            },
+            android: {
+                sound: true,
+                vibrate: true,
+                color: '#512DA8'
+            }
+        });
+    }
+   
+    useEffect(() => {
+        obtainCalendarPermission()
+        }, []);
 
     return(
        <Animatable.View  animation="zoomIn" duration={2000} easing="ease-out" >
@@ -120,7 +175,7 @@ const Reverse=()=>{
 
 </View>
 
-<View style={styles.formGroup}>
+   <View style={styles.formGroup}>
 
               <View style={styles.rowForm}  >
 
@@ -153,30 +208,29 @@ const Reverse=()=>{
 
 
 
-    <DatePicker
-        style={{width: 200}}
-        date={date}
-        mode="date"
-        placeholder="select date"
-        format="YYYY-MM-DD"
-        minDate="2020-01-01"
-        maxDate="2020-12-30"
-        confirmBtnText="Confirm"
-        cancelBtnText="Cancel"
-        customStyles={{
-          dateIcon: {
-            position: 'absolute',
-            left: 0,
-            top: 4,
-            marginLeft: 0
-          },
-          dateInput: {
-            marginLeft: 36
-          }
-          // ... You can check the source to find the other keys.
-        }}
-        onDateChange={(date) => setDate(date)}
-      />
+                <DatePicker
+                    style={{flex: 2, marginRight: 20}}
+                    date={date}
+                    format=''
+                    mode="datetime"
+                    placeholder="select date and Time"
+                    minDate="2017-01-01"
+                    confirmBtnText="Confirm"
+                    cancelBtnText="Cancel"
+                    customStyles={{
+                    dateIcon: {
+                        position: 'absolute',
+                        left: 0,
+                        top: 4,
+                        marginLeft: 0
+                    },
+                    dateInput: {
+                        marginLeft: 36
+                    }
+                    // ... You can check the source to find the other keys. 
+                    }}
+                    onDateChange={(date) => setDate(date)}
+                />
 
 
     </View>
@@ -190,7 +244,7 @@ const Reverse=()=>{
 
 <View  style={styles.rowForm}>
     <View style={{...styles.colForm,flexDirection:'row',justifyContent:'center'}} >
-        <Button title="Reverse" onPress={()=>handleSubmit()}/>
+        <Button title="Reverse" onPress={()=>handleReservation()}/>
     </View>
 </View>
 </View>

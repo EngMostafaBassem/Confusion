@@ -14,6 +14,8 @@ import { baseUrl } from '../json-server/baseUrl';
 import { createNativeWrapper } from 'react-native-gesture-handler';
 import Reverse from './ReserveComponent';
 import Fav from './Fav'
+import Login from './Login'
+import Register from './Register'
 
 
 
@@ -43,6 +45,17 @@ const ReverseNavigator=createStackNavigator({
       title:'Reverse Table',
       headerLeft:()=><Icon name="menu" size={24} color='black' onPress={()=>navigation.toggleDrawer()}/>
 
+    })
+  }
+})
+
+const LoginNavigator=createStackNavigator({
+
+  Login:{
+    screen:Login,
+    navigationOptions:({navigation})=>({
+      headerLeft:()=><Icon name="menu" size={24} color='black' onPress={()=>navigation.toggleDrawer()}/>,
+     
     })
   }
 })
@@ -157,6 +170,20 @@ const FavNavigator=createStackNavigator({
 
 const DrawerNavigator=createDrawerNavigator({
 
+
+  Login:{
+    screen:LoginNavigator,
+    navigationOptions:{
+      drawerIcon:()=>  <Icon
+      name='sign-in'
+      type='font-awesome'            
+      size={24}
+      
+    />
+    }
+  
+
+  },
     Home:
     {
         screen:HomeNavigator, 

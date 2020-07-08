@@ -1,5 +1,5 @@
 import React,{useEffect,useState} from 'react'
-import {View,Text,FlatList,Modal,ScrollView,Alert,PanResponder} from 'react-native'
+import {View,Text,FlatList,Modal,ScrollView,Alert,PanResponder,Share} from 'react-native'
 import {Card, Icon,Rating,Input,Button} from 'react-native-elements'
 
 import {useSelector} from 'react-redux'
@@ -142,6 +142,24 @@ const DishDetailsComponent=(props)=>{
         
         if(isLiked===false)  dispatch(postFavDish(id))
     }
+
+
+
+
+
+    const shareDish = (title, message, url) => {
+        Share.share({
+            title: title,
+            message: title + ': ' + message + ' ' + url,
+            url: url
+        },{
+            dialogTitle: 'Share ' + title
+        })
+    }
+    
+
+
+
     return (
        <ScrollView keyboardShouldPersistTaps>
 
@@ -231,6 +249,17 @@ const DishDetailsComponent=(props)=>{
                   
                   
                   />
+
+
+                     <Icon
+                            raised
+                            reverse
+                            name='share'
+                            type='font-awesome'
+                            color='#51D2A8'
+                           
+                            onPress={() => shareDish(dish.name, dish.description, baseUrl + dish.image)} />
+                            
                    </View>
    
               </Card>

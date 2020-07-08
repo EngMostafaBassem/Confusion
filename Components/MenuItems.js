@@ -6,6 +6,8 @@ import {useSelector} from 'react-redux'
 import Loading from './Loading'
 import { baseUrl } from '../json-server/baseUrl'
 import * as Animatable from 'react-native-animatable';
+
+
 const Menu =(props)=>{
 
     const dishData=useSelector(state=>state.dishReducer)
@@ -13,9 +15,7 @@ const Menu =(props)=>{
 
 
          <Animatable.View animation="bounceInDown" duration={3000}  easing="ease-out">
-
-         
-        
+    
         <ListItem
         
         key={index}
